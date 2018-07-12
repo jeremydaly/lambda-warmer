@@ -1,6 +1,6 @@
 {
   "name": "lambda-warmer",
-  "version": "1.0.0",
+  "version": "1.0.0-alpha",
   "description": "Keep your Lambda functions warm",
   "main": "index.js",
   "scripts": {
@@ -22,5 +22,11 @@
   "bugs": {
     "url": "https://github.com/jeremydaly/lambda-warmer/issues"
   },
-  "homepage": "https://github.com/jeremydaly/lambda-warmer#readme"
+  "homepage": "https://github.com/jeremydaly/lambda-warmer#readme",
+  "dependencies": {
+    "bluebird": "^3.5.1"
+  },
+  "devDependencies": {
+    "aws-sdk": "^2.273.1"
+  }
 }
