@@ -1,0 +1,26 @@
+{
+  "name": "lambda-warmer",
+  "version": "1.0.0",
+  "description": "Keep your Lambda functions warm",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jeremydaly/lambda-warmer.git"
+  },
+  "keywords": [
+    "lambda",
+    "cold start",
+    "aws",
+    "serverless",
+    "cloudwatch ping"
+  ],
+  "author": "Jeremy Daly <jeremy@jeremydaly.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jeremydaly/lambda-warmer/issues"
+  },
+  "homepage": "https://github.com/jeremydaly/lambda-warmer#readme"
+}
