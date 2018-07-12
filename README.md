@@ -3,7 +3,7 @@
 [![npm](https://img.shields.io/npm/v/lambda-warmer.svg)](https://www.npmjs.com/package/lambda-warmer)
 [![npm](https://img.shields.io/npm/l/lambda-warmer.svg)](https://www.npmjs.com/package/lambda-warmer)
 
-## A module to keep your AWS Lambda functions warm
+## A module to manage your AWS Lambda function "warming" events
 
 At a recent AWS Startup Day event in Boston, MA, Chris Munns, the Senior Developer Advocate for Serverless at AWS, discussed **Cold Starts** and how to mitigate them. According to Chris, although he acknowledge that it is a "hack", using the **CloudWatch Events "ping"** method is really the only way to do it right now. He gave a number of good tips do this "correctly":
 
@@ -92,6 +92,17 @@ Identifier that gets passed to all concurrent Lambda invocations. This can be us
 
 ### delay *(number)*
 Minimum amount of time (in milliseconds) for concurrent functions to run. Concurrent functions are invoked asynchronously. Setting a delay enforces Lambda to create multiple invocations. Defaults to `75` to attempt sub 100ms invocation times.
+
+Example passing a configuration:
+
+```javascript
+exports.handler = async (event) => {
+  // if a warming event
+  if (await warmer(event, { correlationId: context.awsRequestId, delay: 50 })) return 'warmed'
+  // else proceed with handler logic
+  return 'Hello from Lambda'
+}
+```
 
 ## Warming your Lambda functions
 
