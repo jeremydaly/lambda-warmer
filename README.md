@@ -96,7 +96,7 @@ Minimum amount of time (in milliseconds) for concurrent functions to run. Concur
 Example passing a configuration:
 
 ```javascript
-exports.handler = async (event) => {
+exports.handler = async (event, context) => {
   // if a warming event
   if (await warmer(event, { correlationId: context.awsRequestId, delay: 50 })) return 'warmed'
   // else proceed with handler logic
