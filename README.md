@@ -16,6 +16,14 @@ He also mentioned that if you want to keep several concurrent functions warm, th
 
 Following these "best practices", I created Lambda Warmer. It is a lightweight module that can be added to your Lambda functions to manage "warming" events as well as handling automatic fan-out for initializing concurrent functions. Since Lambda functions can always invoke themselves, there are no additional permissions to add. Just instrument your code and schedule your CloudWatch Events.
 
+## Installation
+
+Install Lambda Warmer from NPM as a project dependency. Lambda Warmer uses Bluebird as its only dependency to manage delays.
+
+```
+npm i lambda-warmer
+```
+
 ## Instrumenting your Lambda functions
 
 Adding Lambda Warmer to your functions is simple. Require `lambda-warmer` outside of your main handler and then pass the `event` as the first argument into your declared variable. Lambda Warmer will return a resolved promise with either `true`, meaning this *is* a warming invocation, or `false`, this isn't a warming invocation.
