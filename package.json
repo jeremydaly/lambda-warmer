@@ -1,6 +1,6 @@
 {
   "name": "lambda-warmer",
-  "version": "1.0.0-beta",
+  "version": "1.0.0",
   "description": "Keep your Lambda functions warm",
   "main": "index.js",
   "scripts": {

@@ -16,7 +16,9 @@ At a recent AWS Startup Day event in Boston, MA, Chris Munns, the Senior Develop
 
 He also mentioned that if you want to keep several concurrent functions warm, that you need to invoke the same function multiple times with delayed executions. This prevents the system from reusing the same container.
 
-Following these "best practices", I created Lambda Warmer. It is a lightweight module that can be added to your Lambda functions to manage "warming" events as well as handling automatic fan-out for initializing concurrent functions. Since Lambda functions can always invoke themselves, there are no additional permissions to add. Just instrument your code and schedule your CloudWatch Events.
+You can read the key take aways from his talk [here](https://www.jeremydaly.com/15-key-takeaways-from-the-serverless-talk-at-aws-startup-day/).
+
+Following these "best practices", I created **Lambda Warmer**. It is a lightweight module that can be added to your Lambda functions to manage "warming" events as well as handling automatic fan-out for initializing *concurrent functions*. Since Lambda functions can always invoke themselves, there are *no additional permissions* to add. Just instrument your code and schedule your CloudWatch Events.
 
 ## Installation
 
