@@ -9,7 +9,7 @@
 
 const Promise = require('bluebird')
 
-const id = Date.now().toString() + '-' + Math.floor(Math.random()*1000).toString().padStart(4,'0')
+const id = Date.now().toString() + '-' + ('0000' + Math.floor(Math.random()*1000).toString()).substr(-4)
 
 let warm = false
 let lastAccess = null
