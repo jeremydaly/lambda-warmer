@@ -21,7 +21,7 @@ describe('Concurrent Invocation Tests', function() {
       let start = Date.now()
       warmer(event, { log:false }).then(out => {
         let timer = Date.now()-start
-        expect(timer).to.be.within(75,125)
+        expect(timer).to.be.within(74,125)
         expect(out).to.equal(true)
         done()
       })
@@ -39,7 +39,7 @@ describe('Concurrent Invocation Tests', function() {
       let start = Date.now()
       warmer(event, { log:false, delay:100 }).then(out => {
         let timer = Date.now()-start
-        expect(timer).to.be.within(100,150)
+        expect(timer).to.be.within(99,150)
         expect(out).to.equal(true)
         done()
       })
@@ -57,7 +57,7 @@ describe('Concurrent Invocation Tests', function() {
       let start = Date.now()
       warmer(event, { log:false, delay:200 }).then(out => {
         let timer = Date.now()-start
-        expect(timer).to.be.within(200,250)
+        expect(timer).to.be.within(199,250)
         expect(out).to.equal(true)
         done()
       })
@@ -75,7 +75,7 @@ describe('Concurrent Invocation Tests', function() {
       let start = Date.now()
       warmer(event, { log:false, delay:25 }).then(out => {
         let timer = Date.now()-start
-        expect(timer).to.be.within(25,75)
+        expect(timer).to.be.within(24,75)
         expect(out).to.equal(true)
         done()
       })
@@ -103,7 +103,7 @@ describe('Concurrent Invocation Tests', function() {
 
       warmer(event, { log:true }).then(out => {
         let timer = Date.now()-start
-        expect(timer).to.be.within(75,100)
+        expect(timer).to.be.within(74,100)
         console.log = logger // restore console.log
         expect(logData.function).to.equal('test-function')
         expect(logData.count).to.equal(2)
@@ -134,7 +134,7 @@ describe('Concurrent Invocation Tests', function() {
 
       warmer(event, { flag:'warmerX',log:true }).then(out => {
         let timer = Date.now()-start
-        expect(timer).to.be.within(75,100)
+        expect(timer).to.be.within(74,100)
         console.log = logger // restore console.log
         expect(logData.function).to.equal('test-function')
         expect(logData.count).to.equal(2)
@@ -169,7 +169,7 @@ describe('Concurrent Invocation Tests', function() {
         // Invoke with warming event
         warmer(event, { flag:'warmer',log:true }).then(out => {
           let timer = Date.now()-start
-          expect(timer).to.be.within(75,100)
+          expect(timer).to.be.within(74,100)
           console.log = logger // restore console.log
           expect(logData.function).to.equal('test-function')
           expect(logData.count).to.equal(2)
