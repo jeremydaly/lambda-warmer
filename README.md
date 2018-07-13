@@ -123,7 +123,7 @@ If your application experiences periodic traffic spikes throughout the day, you 
 
 ### Using a SAM Template
 
-To add a schedule event to your Lambda functions, you can add a `Type: Schedule` to the `Events` section of your function in a SAM template.
+To add a schedule event to your Lambda functions, you can add a `Type: Schedule` to the `Events` section of your function in a SAM template:
 
 ```yaml
 AWSTemplateFormatVersion: '2010-09-09'
@@ -145,7 +145,7 @@ Resources:
 
 ### Using the Serverless Framework
 
-If you are using the [Serverless Framework](https://serverless.com), you can include a `schedule` event for your functions using the folowing format.
+If you are using the [Serverless Framework](https://serverless.com), you can include a `schedule` event for your functions using the folowing format:
 
 ```yaml
 myFunction:
