@@ -106,7 +106,7 @@ exports.handler = async (event, context) => {
 
 ## Warming your Lambda functions
 
-Lambda Warmer facilitates the warming of your functions by analyzing invocation events and appropriately managing handler processing. It **does not** manage the periodic invocation of your functions. In order to keep your functions warm, you must create a CloudWatch Rule that invokes your functions on a predetermined schedule.
+Lambda Warmer facilitates the warming of your functions by analyzing invocation events and appropriately managing handler processing. It **DOES NOT** manage the periodic invocation of your functions. In order to keep your functions warm, you must create a CloudWatch Rule that invokes your functions on a predetermined schedule.
 
 A rule that invokes your function should contain a `Constant (JSON text)` under the "Configure input" setting. The following is a sample event (using the default configuration and a concurrency of `3`):
 
@@ -120,6 +120,46 @@ The names of `warmer` and `concurrency` can be changed using the configuration o
 
 ### TIP: Preparing for traffic spikes
 If your application experiences periodic traffic spikes throughout the day, you can set up multiple CloudWatch Rules that change the concurrency based on the time of day or day itself.
+
+### Using a SAM Template
+
+To add a schedule event to your Lambda functions, you can add a `Type: Schedule` to the `Events` section of your function in a SAM template.
+
+```yaml
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: 'AWS::Serverless-2016-10-31'
+Resources:
+  MyFunction:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      Handler: index.handler
+      Runtime: nodejs8.10
+      CodeUri: 's3://my-bucket/function.zip'
+    Events:
+      WarmingSchedule:
+        Type: Schedule
+        Properties:
+          Schedule: rate(5 minutes)
+          Input: '{ "warmer":true,"concurrency":3 }'
+```
+
+### Using the Serverless Framework
+
+If you are using the [Serverless Framework](https://serverless.com), you can include a `schedule` event for your functions using the folowing format.
+
+```yaml
+myFunction:
+  name: myFunction
+  handler: myFunction.handler
+  events:
+    - schedule:
+        name: warmer-schedule-name
+        rate: rate(5 minutes)
+        enabled: true
+        input:
+          warmer: true
+          concurrency: 1
+```
 
 ## Logs
 
