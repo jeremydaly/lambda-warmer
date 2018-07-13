@@ -173,7 +173,7 @@ Sample log:
   function: 'my-test-function', // function name
   id: '1531413096993-0568', // unique function instance id
   correlationId: '1531413096993-0568', // correlation id
-  count: 1, //
+  count: 1, // function number of total concurrent e.g. 3 of 10
   concurrency: 2, // number of concurrent functions being invoked
   warm: true, // was this function already warm
   lastAccessed: 1531413096995, // timestamp (in ms) of last non-warming access
