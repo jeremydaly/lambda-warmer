@@ -5,7 +5,7 @@
 [![Build Status](https://travis-ci.org/jeremydaly/lambda-warmer.svg?branch=master)](https://travis-ci.org/jeremydaly/lambda-warmer)
 [![Coverage Status](https://coveralls.io/repos/github/jeremydaly/lambda-warmer/badge.svg?branch=master)](https://coveralls.io/github/jeremydaly/lambda-warmer?branch=master)
 
-## A module to manage your AWS Lambda function "warming" events
+## A module to optimize AWS Lambda function cold starts
 
 At a recent AWS Startup Day event in Boston, MA, Chris Munns, the Senior Developer Advocate for Serverless at AWS, discussed **Cold Starts** and how to mitigate them. According to Chris, although he acknowledge that it is a "hack", using the **CloudWatch Events "ping"** method is really the only way to do it right now. He gave a number of good tips do this "correctly":
 
@@ -184,7 +184,4 @@ Sample log:
 ```
 
 ## Contributing
-I've created a number of custom scripts to do similar cold start mitigation, but I figured I'd share this more complete version to save everyone some time (including my future self). If you would like to contribute, please submit a PR or add issues for bug reports and feature ideas.
-
-## TODOs
-I need to write some unit tests and wire this up for Travis and Coveralls.
+I've created a number of custom scripts to do similar cold start mitigation, but I figured I'd share this more complete version to save everyone some time (including my future self). If you would like to contribute, please submit a PR or add [issues](https://github.com/jeremydaly/lambda-warmer/issues) for bug reports and feature ideas.
