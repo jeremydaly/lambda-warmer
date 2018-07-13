@@ -145,7 +145,7 @@ Resources:
 
 ### Using the Serverless Framework
 
-If you are using the [Serverless Framework](https://serverless.com), you can include a `schedule` event for your functions using the folowing format:
+If you are using the [Serverless Framework](https://serverless.com), you can include a `schedule` event for your functions using the following format:
 
 ```yaml
 myFunction:
@@ -163,7 +163,7 @@ myFunction:
 
 ## Logs
 
-Logs are automatically generated unless the `log` configuration option is set to `false`. Logs contain useful information beyond just invocation data. The `warm` field indicates whether or not the Lambda function was already warm when invoked. The `lastAccessed` field is the timestamp (in milliseconds) of the last time the function was accessed by a non-warming event. Similarly, the `lastAccessedSeconds` gives you a counter (in seconds) of how long it's been since it has been access. These can be used to determine if your concurrency can be lowered.
+Logs are automatically generated unless the `log` configuration option is set to `false`. Logs contain useful information beyond just invocation data. The `warm` field indicates whether or not the Lambda function was already warm when invoked. The `lastAccessed` field is the timestamp (in milliseconds) of the last time the function was accessed by a non-warming event. Similarly, the `lastAccessedSeconds` gives you a counter (in seconds) of how long it's been since it has been accessed. These can be used to determine if your concurrency can be lowered.
 
 Sample log:
 
