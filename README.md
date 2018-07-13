@@ -2,6 +2,8 @@
 
 [![npm](https://img.shields.io/npm/v/lambda-warmer.svg)](https://www.npmjs.com/package/lambda-warmer)
 [![npm](https://img.shields.io/npm/l/lambda-warmer.svg)](https://www.npmjs.com/package/lambda-warmer)
+[![Build Status](https://travis-ci.org/jeremydaly/lambda-warmer.svg?branch=master)](https://travis-ci.org/jeremydaly/lambda-warmer)
+[![Coverage Status](https://coveralls.io/repos/github/jeremydaly/lambda-warmer/badge.svg?branch=master)](https://coveralls.io/github/jeremydaly/lambda-warmer?branch=master)
 
 ## A module to manage your AWS Lambda function "warming" events
 
