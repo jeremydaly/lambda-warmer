@@ -3,11 +3,10 @@
 /**
  * Keep your Lambda functions warm
  * @author Jeremy Daly <jeremy@jeremydaly.com>
- * @version 0.1.0
+ * @version 1.0.0
  * @license MIT
  */
 
-const AWS = require('aws-sdk')
 const Promise = require('bluebird')
 
 const id = Date.now().toString() + '-' + Math.floor(Math.random()*1000).toString().padStart(4,'0')
@@ -34,22 +33,22 @@ module.exports = (event,cfg = {}) => {
     let concurrency = event[config.concurrency]
       && !isNaN(event[config.concurrency])
       && event[config.concurrency] > 1
-       ? event[config.concurrency] : 1
+      ? event[config.concurrency] : 1
 
     let invokeCount = event['__WARMER_INVOCATION__']
       && !isNaN(event['__WARMER_INVOCATION__'])
-        ? event['__WARMER_INVOCATION__'] : 1
+      ? event['__WARMER_INVOCATION__'] : 1
 
     let invokeTotal = event['__WARMER_CONCURRENCY__']
       && !isNaN(event['__WARMER_CONCURRENCY__'])
-        ? event['__WARMER_CONCURRENCY__'] : concurrency
+      ? event['__WARMER_CONCURRENCY__'] : concurrency
 
     let correlationId = event['__WARMER_CORRELATIONID__']
-        ? event['__WARMER_CORRELATIONID__'] : config.correlationId
+      ? event['__WARMER_CORRELATIONID__'] : config.correlationId
 
     // Create log record
     let log = {
-      action: "warmer",
+      action: 'warmer',
       function: funcName,
       id,
       correlationId,
@@ -61,7 +60,7 @@ module.exports = (event,cfg = {}) => {
     }
 
     // Log it
-    config.log && console.log(log)
+    config.log && console.log(log) // eslint-disable-line no-console
 
     // flag as warm
     warm = true
@@ -69,8 +68,8 @@ module.exports = (event,cfg = {}) => {
     // Fan out if concurrency is set higher than 1
     if (concurrency > 1 && !event[config.test]) {
 
-      // init Lambda sdk
-      let lambda = new AWS.Lambda()
+      // init Lambda service
+      let lambda = require('./lib/lambda-service')
 
       // init promise array
       let invocations = []
@@ -96,10 +95,9 @@ module.exports = (event,cfg = {}) => {
 
       } // end for
 
-      // Attempt to connect to
+      // Invoke concurrent functions
       return Promise.all(invocations)
-        .then(() => true)
-        .catch((e) => { throw new Error(e) })
+        .then((res) => true)
 
     } else if (invokeCount > 1) {
       return Promise.delay(config.delay).then(() => true)
