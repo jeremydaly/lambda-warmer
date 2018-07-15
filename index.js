@@ -7,7 +7,7 @@
  * @license MIT
  */
 
-const delay = ms => new Promise((res, rej) => setTimeout(res, ms));
+const delay = ms => new Promise(res => setTimeout(res, ms))
 
 const id = Date.now().toString() + '-' + ('0000' + Math.floor(Math.random()*1000).toString()).substr(-4)
 
