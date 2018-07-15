@@ -7,7 +7,7 @@
 
 ## A module to optimize AWS Lambda function cold starts
 
-At a recent AWS Startup Day event in Boston, MA, Chris Munns, the Senior Developer Advocate for Serverless at AWS, discussed **Cold Starts** and how to mitigate them. According to Chris, although he acknowledge that it is a "hack", using the **CloudWatch Events "ping"** method is really the only way to do it right now. He gave a number of good tips do this "correctly":
+At a recent AWS Startup Day event in Boston, MA, Chris Munns, the Senior Developer Advocate for Serverless at AWS, discussed **Cold Starts** and how to mitigate them. According to Chris (although he acknowledge that it is a "hack") using the **CloudWatch Events "ping"** method is really the only way to do it right now. He gave a number of good tips on how to do this "correctly":
 
 - Don’t ping more often than every 5 minutes
 - Invoke the function directly (i.e. don’t use API Gateway to invoke it)
