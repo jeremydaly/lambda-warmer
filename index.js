@@ -7,14 +7,14 @@
  * @license MIT
  */
 
-const delay = ms => new Promise(res => setTimeout(res, ms))
-
 const id = Date.now().toString() + '-' + ('0000' + Math.floor(Math.random()*1000).toString()).substr(-4)
 
 let warm = false
 let lastAccess = null
 
 const funcName = process.env.AWS_LAMBDA_FUNCTION_NAME
+
+const delay = ms => new Promise(res => setTimeout(res, ms))
 
 module.exports = (event,cfg = {}) => {
 
