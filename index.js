@@ -7,7 +7,7 @@
  * @license MIT
  */
 
-const Promise = require('bluebird')
+const delay = ms => new Promise((res, rej) => setTimeout(res, ms));
 
 const id = Date.now().toString() + '-' + ('0000' + Math.floor(Math.random()*1000).toString()).substr(-4)
 
@@ -100,7 +100,7 @@ module.exports = (event,cfg = {}) => {
         .then((res) => true)
 
     } else if (invokeCount > 1) {
-      return Promise.delay(config.delay).then(() => true)
+      return delay(config.delay).then(() => true)
     }
 
     return Promise.resolve(true)
