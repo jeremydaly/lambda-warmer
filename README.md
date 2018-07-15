@@ -7,18 +7,18 @@
 
 ## A module to optimize AWS Lambda function cold starts
 
-At a recent AWS Startup Day event in Boston, MA, Chris Munns, the Senior Developer Advocate for Serverless at AWS, discussed **Cold Starts** and how to mitigate them. According to Chris (although he acknowledge that it is a "hack") using the **CloudWatch Events "ping"** method is really the only way to do it right now. He gave a number of good tips on how to do this "correctly":
+At a recent AWS Startup Day event in Boston, MA, Chris Munns, the Senior Developer Advocate for Serverless at AWS, discussed **Cold Starts** and how to mitigate them. According to Chris (although he acknowledged that it is a "hack") using the **CloudWatch Events "ping"** method is really the only way to do it right now. He gave a number of good tips on how to do this "correctly":
 
 - Don’t ping more often than every 5 minutes
 - Invoke the function directly (i.e. don’t use API Gateway to invoke it)
 - Pass in a test payload that can be identified as such
 - Create handler logic that replies accordingly without running the whole function
 
-He also mentioned that if you want to keep several concurrent functions warm, that you need to invoke the same function multiple times with delayed executions. This prevents the system from reusing the same container.
+He also mentioned that if you want to keep several **concurrent** functions warm, that you need to invoke the same function multiple times with delayed executions. This prevents the system from reusing the same container.
 
 You can read the key takeaways from his talk [here](https://www.jeremydaly.com/15-key-takeaways-from-the-serverless-talk-at-aws-startup-day/).
 
-Following these "best practices", I created **Lambda Warmer**. It is a lightweight module (no dependencies) that can be added to your Lambda functions to manage "warming" events as well as handling automatic fan-out for initializing *concurrent functions*. Just instrument your code and schedule your CloudWatch Events.
+Following these "best practices", I created **Lambda Warmer**. It is a lightweight module (with no dependencies) that can be added to your Lambda functions to manage "warming" events as well as handling automatic fan-out for initializing *concurrent functions*. Just instrument your code and schedule a "ping".
 
 **NOTE:** Lambda Warmer will invoke the function multiple times using the AWS-SDK in order to scale concurrency (if you want to). Your functions MUST have `lambda:InvokeFunction` permissions so that they can invoke themselves. Following the Principle of Least Privilege, you should limit the `Resource` to the function itself, e.g.:
 
@@ -28,6 +28,8 @@ Following these "best practices", I created **Lambda Warmer**. It is a lightweig
     - "lambda:InvokeFunction"
   Resource: "arn:aws:lambda:us-east-1:{AWS-ACCOUNT-ID}:function:my-test-function"
 ```
+
+If you'd like to know more about how **Lambda Warmer** works, and why you might (or might not) want to use it, read this *[Lambda Warmer: Optimize AWS Lambda Function Cold Starts](https://www.jeremydaly.com/lambda-warmer-optimize-aws-lambda-function-cold-starts/)* post.
 
 ## Installation
 
