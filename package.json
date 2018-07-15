@@ -27,7 +27,6 @@
   },
   "homepage": "https://github.com/jeremydaly/lambda-warmer#readme",
   "dependencies": {
-    "bluebird": "^3.5.1"
   },
   "devDependencies": {
     "aws-sdk": "^2.273.1",

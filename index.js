@@ -7,14 +7,14 @@
  * @license MIT
  */
 
-const Promise = require('bluebird')
-
 const id = Date.now().toString() + '-' + ('0000' + Math.floor(Math.random()*1000).toString()).substr(-4)
 
 let warm = false
 let lastAccess = null
 
 const funcName = process.env.AWS_LAMBDA_FUNCTION_NAME
+
+const delay = ms => new Promise(res => setTimeout(res, ms))
 
 module.exports = (event,cfg = {}) => {
 
@@ -100,7 +100,7 @@ module.exports = (event,cfg = {}) => {
         .then((res) => true)
 
     } else if (invokeCount > 1) {
-      return Promise.delay(config.delay).then(() => true)
+      return delay(config.delay).then(() => true)
     }
 
     return Promise.resolve(true)

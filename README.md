@@ -18,7 +18,7 @@ He also mentioned that if you want to keep several concurrent functions warm, th
 
 You can read the key takeaways from his talk [here](https://www.jeremydaly.com/15-key-takeaways-from-the-serverless-talk-at-aws-startup-day/).
 
-Following these "best practices", I created **Lambda Warmer**. It is a lightweight module that can be added to your Lambda functions to manage "warming" events as well as handling automatic fan-out for initializing *concurrent functions*. Just instrument your code and schedule your CloudWatch Events.
+Following these "best practices", I created **Lambda Warmer**. It is a lightweight module (no dependencies) that can be added to your Lambda functions to manage "warming" events as well as handling automatic fan-out for initializing *concurrent functions*. Just instrument your code and schedule your CloudWatch Events.
 
 **NOTE:** Lambda Warmer will invoke the function multiple times using the AWS-SDK in order to scale concurrency (if you want to). Your functions MUST have `lambda:InvokeFunction` permissions so that they can invoke themselves. Following the Principle of Least Privilege, you should limit the `Resource` to the function itself, e.g.:
 
@@ -31,7 +31,7 @@ Following these "best practices", I created **Lambda Warmer**. It is a lightweig
 
 ## Installation
 
-Install Lambda Warmer from NPM as a project dependency. Lambda Warmer uses Bluebird as its only dependency to manage delays.
+Install Lambda Warmer from NPM as a project dependency.
 
 ```
 npm i lambda-warmer
