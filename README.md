@@ -4,6 +4,7 @@
 [![npm](https://img.shields.io/npm/l/lambda-warmer.svg)](https://www.npmjs.com/package/lambda-warmer)
 [![Build Status](https://travis-ci.org/jeremydaly/lambda-warmer.svg?branch=master)](https://travis-ci.org/jeremydaly/lambda-warmer)
 [![Coverage Status](https://coveralls.io/repos/github/jeremydaly/lambda-warmer/badge.svg?branch=master)](https://coveralls.io/github/jeremydaly/lambda-warmer?branch=master)
+![dependencies](https://img.shields.io/badge/dependencies-0-brightgreen.svg)
 
 ## A module to optimize AWS Lambda function cold starts
 
