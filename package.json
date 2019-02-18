@@ -1,6 +1,6 @@
 {
   "name": "lambda-warmer",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Keep your Lambda functions warm",
   "main": "index.js",
   "scripts": {
@@ -26,18 +26,17 @@
     "url": "https://github.com/jeremydaly/lambda-warmer/issues"
   },
   "homepage": "https://github.com/jeremydaly/lambda-warmer#readme",
-  "dependencies": {
-  },
+  "dependencies": {},
   "devDependencies": {
-    "aws-sdk": "^2.273.1",
-    "chai": "^4.1.2",
+    "aws-sdk": "^2.404.0",
+    "chai": "^4.2.0",
     "coveralls": "^3.0.2",
-    "eslint": "^5.1.0",
+    "eslint": "^5.14.1",
     "mocha": "^5.2.0",
     "mocha-lcov-reporter": "^1.3.0",
-    "nyc": "^12.0.2",
+    "nyc": "^13.3.0",
     "rewire": "^4.0.1",
-    "sinon": "^6.1.3"
+    "sinon": "^6.3.5"
   },
   "files": [
     "lib/",
