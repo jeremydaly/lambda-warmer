@@ -64,6 +64,7 @@ module.exports = (event,cfg = {}) => {
 
     // flag as warm
     warm = true
+    lastAccess = Date.now()
 
     // Fan out if concurrency is set higher than 1
     if (concurrency > 1 && !event[config.test]) {
