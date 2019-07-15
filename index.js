@@ -21,10 +21,11 @@ module.exports = (event,cfg = {}) => {
   let config = Object.assign({}, {
     flag: 'warmer', // default test flag
     concurrency: 'concurrency', // default concurrency field
+    target: 'target', // default target field
     test: 'test', // default test flag
     log: true, // default logging to true
     correlationId: id, // default the correlationId
-    delay: 75 // default the delay to 75ms
+    delay: 75, // default the delay to 75ms
   },cfg)
 
   // If the event is a warmer ping
@@ -34,6 +35,9 @@ module.exports = (event,cfg = {}) => {
       && !isNaN(event[config.concurrency])
       && event[config.concurrency] > 1
       ? event[config.concurrency] : 1
+    
+    // Default target to funcName
+    let target = event[config.target] || funcName
 
     let invokeCount = event['__WARMER_INVOCATION__']
       && !isNaN(event['__WARMER_INVOCATION__'])
@@ -66,8 +70,11 @@ module.exports = (event,cfg = {}) => {
     warm = true
     lastAccess = Date.now()
 
+    // Check wether this lambda is invoking a different lambda
+    let isDifferentTarget = target !== funcName
+
     // Fan out if concurrency is set higher than 1
-    if (concurrency > 1 && !event[config.test]) {
+    if ((concurrency > 1 || isDifferentTarget) && !event[config.test]) {
 
       // init Lambda service
       let lambda = require('./lib/lambda-service')
@@ -76,11 +83,11 @@ module.exports = (event,cfg = {}) => {
       let invocations = []
 
       // loop through concurrency count
-      for (let i=2; i <= concurrency; i++) {
+      for (let i=(isDifferentTarget ? 1 : 2); i <= concurrency; i++) {
 
         // Set the params and wait for the final function to finish
         let params = {
-          FunctionName: funcName,
+          FunctionName: target,
           InvocationType: i === concurrency ? 'RequestResponse' : 'Event',
           LogType: 'None',
           Payload: new Buffer(JSON.stringify({
