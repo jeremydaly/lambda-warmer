@@ -109,6 +109,9 @@ Identifier that gets passed to all concurrent Lambda invocations. This can be us
 ### delay *(number)*
 Minimum amount of time (in milliseconds) for concurrent functions to run. Concurrent functions are invoked asynchronously. Setting a delay enforces Lambda to create multiple invocations. Defaults to `75` to attempt sub 100ms invocation times.
 
+### target *(string)*
+Name of the target function to be warmed. Defaults to `funcName` (the name of the function itself).
+
 Example passing a configuration:
 
 ```javascript
@@ -175,6 +178,30 @@ myFunction:
         input:
           warmer: true
           concurrency: 1
+```
+
+## Setting multiple targets
+In addition to passing a single-target input (either the function itself or the configured target), Lambda Warmer also accepts an array of events, each allowing a separate config (concurrency, target, etc.). This allows the re-use of a single CloudWatch rule for multiple targets, beyond the limit of CloudWatch itself, which is 5. It also simplifies sharing the rule in Serverless.
+
+```yaml
+myFunction:
+  name: myFunction
+  handler: myFunction.handler
+  events:
+    - schedule:
+        name: warmer-schedule-name
+        rate: rate(5 minutes)
+        enabled: true
+        input:
+          - warmer: true
+            concurrency: 1
+            target: myOtherFunction
+          - warmer: true
+            concurrency: 2
+            target: myOtherFunction2
+          - warmer: true
+            concurrency: 2
+            target: myOtherFunction3
 ```
 
 ## Logs
