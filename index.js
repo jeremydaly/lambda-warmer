@@ -83,7 +83,7 @@ module.exports = (event,cfg = {}) => {
           FunctionName: funcName,
           InvocationType: i === concurrency ? 'RequestResponse' : 'Event',
           LogType: 'None',
-          Payload: new Buffer(JSON.stringify({
+          Payload: Buffer.from(JSON.stringify({
             [config.flag]: true, // send warmer flag
             '__WARMER_INVOCATION__': i, // send invocation number
             '__WARMER_CONCURRENCY__': concurrency, // send total concurrency
