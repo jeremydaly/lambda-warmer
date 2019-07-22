@@ -50,7 +50,7 @@ module.exports = (event,cfg = {}) => {
     // Create log record
     let log = {
       action: 'warmer',
-      function: funcName + ":" + funcVersion,
+      function: funcName + ':' + funcVersion,
       id,
       correlationId,
       count: invokeCount,
@@ -81,7 +81,7 @@ module.exports = (event,cfg = {}) => {
 
         // Set the params and wait for the final function to finish
         let params = {
-          FunctionName: funcName + ":" + funcVersion,
+          FunctionName: funcName + ':' + funcVersion,
           InvocationType: i === concurrency ? 'RequestResponse' : 'Event',
           LogType: 'None',
           Payload: Buffer.from(JSON.stringify({
@@ -99,7 +99,7 @@ module.exports = (event,cfg = {}) => {
 
       // Invoke concurrent functions
       return Promise.all(invocations)
-        .then((res) => true)
+        .then(() => true)
 
     } else if (invokeCount > 1) {
       return delay(config.delay).then(() => true)
