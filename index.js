@@ -13,6 +13,7 @@ let warm = false
 let lastAccess = null
 
 const funcName = process.env.AWS_LAMBDA_FUNCTION_NAME
+const funcVersion = process.env.AWS_LAMBDA_FUNCTION_VERSION
 
 const delay = ms => new Promise(res => setTimeout(res, ms))
 
@@ -49,7 +50,7 @@ module.exports = (event,cfg = {}) => {
     // Create log record
     let log = {
       action: 'warmer',
-      function: funcName,
+      function: funcName + ":" + funcVersion,
       id,
       correlationId,
       count: invokeCount,
@@ -80,7 +81,7 @@ module.exports = (event,cfg = {}) => {
 
         // Set the params and wait for the final function to finish
         let params = {
-          FunctionName: funcName,
+          FunctionName: funcName + ":" + funcVersion,
           InvocationType: i === concurrency ? 'RequestResponse' : 'Event',
           LogType: 'None',
           Payload: Buffer.from(JSON.stringify({
