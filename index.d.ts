@@ -1,10 +1,10 @@
 type WarmerConfig = {
-  flag: string,
-  concurrency: string,
-  test: string,
-  log: boolean,
-  correlationId: string,
-  delay: number,
+  flag?: string,
+  concurrency?: string,
+  test?: string,
+  log?: boolean,
+  correlationId?: string,
+  delay?: number,
 };
 
 /**
