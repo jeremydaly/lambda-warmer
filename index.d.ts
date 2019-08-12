@@ -18,6 +18,6 @@ export type WarmerConfig = {
  *
  * @returns a Promise that resolves to true if this is a warming invocation
  */
-function warmer(event: any, config?: WarmerConfig): Promise<boolean>;
+declare function warmer(event: any, config?: WarmerConfig): Promise<boolean>;
 
 export = warmer;
