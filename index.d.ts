@@ -1,4 +1,4 @@
-export type WarmerConfig = {
+type WarmerConfig = {
   flag: string,
   concurrency: string,
   test: string,
