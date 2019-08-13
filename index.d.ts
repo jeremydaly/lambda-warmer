@@ -20,4 +20,6 @@ type WarmerConfig = {
  */
 declare function warmer(event: any, config?: WarmerConfig): Promise<boolean>;
 
+warmer.WarmerConfig = WarmerConfig;
+
 export = warmer;
