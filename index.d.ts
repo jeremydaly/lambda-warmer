@@ -1,10 +1,10 @@
-export type WarmerConfig = {
-  flag: string,
-  concurrency: string,
-  test: string,
-  log: boolean,
-  correlationId: string,
-  delay: number,
+type WarmerConfig = {
+  flag?: string,
+  concurrency?: string,
+  test?: string,
+  log?: boolean,
+  correlationId?: string,
+  delay?: number,
 };
 
 /**
@@ -18,6 +18,8 @@ export type WarmerConfig = {
  *
  * @returns a Promise that resolves to true if this is a warming invocation
  */
-function warmer(event: any, config?: WarmerConfig): Promise<boolean>;
+declare function warmer(event: any, config?: WarmerConfig): Promise<boolean>;
+
+warmer.WarmerConfig = WarmerConfig;
 
 export = warmer;
