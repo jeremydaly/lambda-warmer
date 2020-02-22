@@ -177,6 +177,37 @@ myFunction:
           concurrency: 1
 ```
 
+### Warming VPC functions
+
+if you don't need concurrency more than 1, it works well to just use Cloudwatch events. Otherwise lambda function can't inovoke itself due to VPC constrains. The solution for that is using AWS NAT, which is ok if you are using it already. But introducing NAT(which is pricy) just for warming sounds not the good idea. As a solution, you may create separate lambda and pass target function into Cloudwatch event payload:
+
+```yaml
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: 'AWS::Serverless-2016-10-31'
+Resources:
+  MyFunction:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      Handler: index.handler
+      Runtime: nodejs12.x
+      CodeUri: 's3://my-bucket/function.zip'
+  
+  WarmingFunction:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      Handler: index.handler
+      Runtime: nodejs12.x
+      CodeUri: 's3://my-bucket/warmer.zip'
+    Events:
+      WarmingSchedule:
+        Type: Schedule
+        Properties:
+          Schedule: rate(5 minutes)
+          Input: !Sub '{ "warmer":true, "concurrency":3, "targetFuncName": ${MyFunction.Arn} }'
+```
+
+WarmingFunction will be triggered by Cloudwatch events and the package inside it will check input configuration and based on concurrency invoke target function.
+
 ## Logs
 
 Logs are automatically generated unless the `log` configuration option is set to `false`. Logs contain useful information beyond just invocation data. The `warm` field indicates whether or not the Lambda function was already warm when invoked. The `lastAccessed` field is the timestamp (in milliseconds) of the last time the function was accessed by a non-warming event. Similarly, the `lastAccessedSeconds` gives you a counter (in seconds) of how long it's been since it has been accessed. These can be used to determine if your concurrency can be lowered.

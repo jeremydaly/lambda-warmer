@@ -47,10 +47,15 @@ module.exports = (event,cfg = {}) => {
     let correlationId = event['__WARMER_CORRELATIONID__']
       ? event['__WARMER_CORRELATIONID__'] : config.correlationId
 
+    const shouldWait = event['__WARMER_DELAY__']
+
+    const targetFuncName = event.targetFuncName
+
+    const functionToWarm = targetFuncName || `${funcName}:${funcVersion}`
     // Create log record
     let log = {
       action: 'warmer',
-      function: funcName + ':' + funcVersion,
+      function: functionToWarm,
       id,
       correlationId,
       count: invokeCount,
@@ -67,8 +72,10 @@ module.exports = (event,cfg = {}) => {
     warm = true
     lastAccess = Date.now()
 
+    const shouldInvoke = concurrency > 1 || targetFuncName
+
     // Fan out if concurrency is set higher than 1
-    if (concurrency > 1 && !event[config.test]) {
+    if (shouldInvoke && !event[config.test]) {
 
       // init Lambda service
       let lambda = require('./lib/lambda-service')
@@ -76,19 +83,23 @@ module.exports = (event,cfg = {}) => {
       // init promise array
       let invocations = []
 
+      // if warming self, we skip 1 due to current function invocation
+      // if targetFuncName, we need to start from 1 to invoke target function `concurrency` times
+      const startCount = targetFuncName ? 1 : 2;
       // loop through concurrency count
-      for (let i=2; i <= concurrency; i++) {
+      for (let i = startCount; i <= concurrency; i++) {
 
         // Set the params and wait for the final function to finish
         let params = {
-          FunctionName: funcName + ':' + funcVersion,
+          FunctionName: functionToWarm,
           InvocationType: i === concurrency ? 'RequestResponse' : 'Event',
           LogType: 'None',
           Payload: Buffer.from(JSON.stringify({
             [config.flag]: true, // send warmer flag
             '__WARMER_INVOCATION__': i, // send invocation number
             '__WARMER_CONCURRENCY__': concurrency, // send total concurrency
-            '__WARMER_CORRELATIONID__': correlationId // send correlation id
+            '__WARMER_CORRELATIONID__': correlationId, // send correlation id
+            '__WARMER_DELAY__': !!targetFuncName, // send explicit wait if target is another function
           }))
         }
 
@@ -101,7 +112,7 @@ module.exports = (event,cfg = {}) => {
       return Promise.all(invocations)
         .then(() => true)
 
-    } else if (invokeCount > 1) {
+    } else if (shouldWait || invokeCount > 1) {
       return delay(config.delay).then(() => true)
     }
 

@@ -175,4 +175,38 @@ describe('Concurrency Tests', function() {
 
   })
 
+  describe('Warm another function', function() {
+
+    it('should have 3 target lambda invocation', function(done) {
+      let warmer = rewire('../index')
+      stub.returns({ promise: () => true })
+
+      let event = { warmer: true, concurrency: 3, targetFuncName: 'vpc-function' }
+      
+      warmer(event, { log:false }).then(out => {
+        expect(stub.callCount).to.equal(3)
+        expect(stub.args[0][0].InvocationType).to.equal('Event')
+        expect(stub.args[1][0].InvocationType).to.equal('Event')
+        expect(stub.args[2][0].InvocationType).to.equal('RequestResponse')
+        expect(out).to.equal(true)
+        done()
+      })
+    })
+
+    it('should have 1 target lambda invocation', function(done) {
+      let warmer = rewire('../index')
+      stub.returns({ promise: () => true })
+
+      let event = { warmer: true, concurrency: 1, targetFuncName: 'vpc-function' }
+      
+      warmer(event, { log:false }).then(out => {
+        expect(stub.callCount).to.equal(1)
+        expect(stub.args[0][0].InvocationType).to.equal('RequestResponse')
+        expect(out).to.equal(true)
+        done()
+      })
+    })
+
+  })
+
 })
