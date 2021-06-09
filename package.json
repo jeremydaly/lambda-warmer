@@ -26,13 +26,12 @@
     "url": "https://github.com/jeremydaly/lambda-warmer/issues"
   },
   "homepage": "https://github.com/jeremydaly/lambda-warmer#readme",
-  "dependencies": {},
   "devDependencies": {
     "aws-sdk": "^2.424.0",
     "chai": "^4.2.0",
     "coveralls": "^3.0.3",
     "eslint": "^5.15.3",
-    "mocha": "^5.2.0",
+    "mocha": "^9.0.0",
     "mocha-lcov-reporter": "^1.3.0",
     "nyc": "^14.1.1",
     "rewire": "^4.0.1",
