@@ -197,10 +197,5 @@ Sample log:
 }
 ```
 
-## Sponsors
-
-[![New Relic](https://user-images.githubusercontent.com/2053544/96728664-55238700-1382-11eb-93cb-82fe7cb5e043.png)](https://ad.doubleclick.net/ddm/trackclk/N1116303.3950900PODSEARCH.COM/B24770737.285235234;dc_trk_aid=479074825;dc_trk_cid=139488579;dc_lat=;dc_rdid=;tag_for_child_directed_treatment=;tfua=;gdpr=${GDPR};gdpr_consent=${GDPR_CONSENT_755})
-<IMG SRC="https://ad.doubleclick.net/ddm/trackimp/N1116303.3950900PODSEARCH.COM/B24770737.285235234;dc_trk_aid=479074825;dc_trk_cid=139488579;ord=[timestamp];dc_lat=;dc_rdid=;tag_for_child_directed_treatment=;tfua=;gdpr=${GDPR};gdpr_consent=${GDPR_CONSENT_755}?" BORDER="0" HEIGHT="1" WIDTH="1" ALT="Advertisement">
-
 ## Contributing
 I've created a number of custom scripts to do similar cold start mitigation, but I figured I'd share this more complete version to save everyone some time (including my future self). If you would like to contribute, please submit a PR or add [issues](https://github.com/jeremydaly/lambda-warmer/issues) for bug reports and feature ideas.
