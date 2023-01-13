@@ -10,7 +10,8 @@
     "test-ci": "npm run lint:check && nyc npm test && nyc report --reporter=text-lcov | ./node_modules/coveralls/bin/coveralls.js",
     "lint:check": "eslint .",
     "lint:fix": "eslint . --fix",
-    "dtslint": "dtslint types"
+    "dtslint": "dtslint types",
+    "prepublishOnly": "npm run lint:check && npm run test && npm run dtslint"
   },
   "repository": {
     "type": "git",
