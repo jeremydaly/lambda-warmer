@@ -3,7 +3,6 @@
 /**
  * Keep your Lambda functions warm
  * @author Jeremy Daly <jeremy@jeremydaly.com>
- * @version 1.1.2
  * @license MIT
  */
 
