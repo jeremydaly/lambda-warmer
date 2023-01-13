@@ -5,6 +5,7 @@ const rewire = require('rewire') // Rewire library
 
 // Seed expected environment variable
 process.env.AWS_LAMBDA_FUNCTION_NAME = 'test-function'
+process.env.AWS_LAMBDA_FUNCTION_VERSION = '$LATEST'
 
 describe('Concurrent Invocation Tests', function() {
 
@@ -105,7 +106,7 @@ describe('Concurrent Invocation Tests', function() {
         let timer = Date.now()-start
         expect(timer).to.be.within(74,100)
         console.log = logger // restore console.log
-        expect(logData.function).to.equal('test-function')
+        expect(logData.function).to.equal('test-function:$LATEST')
         expect(logData.count).to.equal(2)
         expect(logData.concurrency).to.equal(2)
         expect(logData.warm).to.equal(false)
@@ -136,7 +137,7 @@ describe('Concurrent Invocation Tests', function() {
         let timer = Date.now()-start
         expect(timer).to.be.within(74,100)
         console.log = logger // restore console.log
-        expect(logData.function).to.equal('test-function')
+        expect(logData.function).to.equal('test-function:$LATEST')
         expect(logData.count).to.equal(2)
         expect(logData.concurrency).to.equal(3)
         expect(logData.warm).to.equal(false)
@@ -171,7 +172,7 @@ describe('Concurrent Invocation Tests', function() {
           let timer = Date.now()-start
           expect(timer).to.be.within(74,100)
           console.log = logger // restore console.log
-          expect(logData.function).to.equal('test-function')
+          expect(logData.function).to.equal('test-function:$LATEST')
           expect(logData.count).to.equal(2)
           expect(logData.concurrency).to.equal(3)
           expect(logData.warm).to.equal(true)

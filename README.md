@@ -2,7 +2,6 @@
 
 [![npm](https://img.shields.io/npm/v/lambda-warmer.svg)](https://www.npmjs.com/package/lambda-warmer)
 [![npm](https://img.shields.io/npm/l/lambda-warmer.svg)](https://www.npmjs.com/package/lambda-warmer)
-[![Build Status](https://travis-ci.org/jeremydaly/lambda-warmer.svg?branch=master)](https://travis-ci.org/jeremydaly/lambda-warmer)
 [![Coverage Status](https://coveralls.io/repos/github/jeremydaly/lambda-warmer/badge.svg?branch=master)](https://coveralls.io/github/jeremydaly/lambda-warmer?branch=master)
 ![dependencies](https://img.shields.io/badge/dependencies-0-brightgreen.svg)
 
@@ -154,12 +153,12 @@ Resources:
       Handler: index.handler
       Runtime: nodejs8.10
       CodeUri: 's3://my-bucket/function.zip'
-    Events:
-      WarmingSchedule:
-        Type: Schedule
-        Properties:
-          Schedule: rate(5 minutes)
-          Input: '{ "warmer":true,"concurrency":3 }'
+      Events:
+        WarmingSchedule:
+          Type: Schedule
+          Properties:
+            Schedule: rate(5 minutes)
+            Input: '{ "warmer":true,"concurrency":3 }'
 ```
 
 ### Using the Serverless Framework
@@ -223,12 +222,6 @@ Sample log:
   lastAccessedSeconds: '25.6' // time since last non-warming access
 }
 ```
-
-## Sponsors
-
-[![IOpipe](http://jeremydaly.com/wp-content/uploads/2019/02/iopipe-logo.png)](https://www.iopipe.com/?utm_source=github&utm_medium=lambda-warmer-lambda-api&utm_campaign=open%20source%20sponsorship)
-
-IOpipe is all about making it more fun to be a developer through the support of the open source serverless community. Sign up with [IOpipe](https://www.iopipe.com/?utm_source=github&utm_medium=lambda-warmer-lambda-api&utm_campaign=open%20source%20sponsorship) for free to get real-time visibility into the most detailed behaviors of your Lambda applications.
 
 ## Contributing
 I've created a number of custom scripts to do similar cold start mitigation, but I figured I'd share this more complete version to save everyone some time (including my future self). If you would like to contribute, please submit a PR or add [issues](https://github.com/jeremydaly/lambda-warmer/issues) for bug reports and feature ideas.

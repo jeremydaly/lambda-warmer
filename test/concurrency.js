@@ -8,6 +8,7 @@ const lambda = require('../lib/lambda-service') // Init Lambda Service
 
 // Seed expected environment variable
 process.env.AWS_LAMBDA_FUNCTION_NAME = 'test-function'
+process.env.AWS_LAMBDA_FUNCTION_VERSION = '$LATEST'
 
 let stub // init stub
 

@@ -3,7 +3,6 @@
 /**
  * Keep your Lambda functions warm
  * @author Jeremy Daly <jeremy@jeremydaly.com>
- * @version 1.1.2
  * @license MIT
  */
 
@@ -16,6 +15,7 @@ let warm = false
 let lastAccess = null
 
 const funcName = process.env.AWS_LAMBDA_FUNCTION_NAME
+const funcVersion = process.env.AWS_LAMBDA_FUNCTION_VERSION
 
 const delay = ms => new Promise(res => setTimeout(res, ms))
 
@@ -49,7 +49,7 @@ const handleEvent = (event, config) => {
     // Create log record
     let log = {
       action: 'warmer',
-      function: funcName,
+      function: funcName + ':' + funcVersion,
       id,
       correlationId,
       count: invokeCount,
