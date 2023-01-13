@@ -150,12 +150,12 @@ Resources:
       Handler: index.handler
       Runtime: nodejs8.10
       CodeUri: 's3://my-bucket/function.zip'
-    Events:
-      WarmingSchedule:
-        Type: Schedule
-        Properties:
-          Schedule: rate(5 minutes)
-          Input: '{ "warmer":true,"concurrency":3 }'
+      Events:
+        WarmingSchedule:
+          Type: Schedule
+          Properties:
+            Schedule: rate(5 minutes)
+            Input: '{ "warmer":true,"concurrency":3 }'
 ```
 
 ### Using the Serverless Framework
