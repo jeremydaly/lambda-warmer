@@ -13,10 +13,10 @@ warmer({}, {
 });
 
 // @ts-expect-error - params should be required
-warmer()
+warmer();
 
 // @ts-expect-error - config should be an object
-warmer({}, 'some-invalid-config')
+warmer({}, 'some-invalid-config');
 
 warmer({}, {
   // @ts-expect-error - flag should be a string
