@@ -1,10 +1,11 @@
 interface WarmerConfig {
   flag?: string;
-  concurrency?: string;
+  concurrency?: number;
   test?: string;
   log?: boolean;
   correlationId?: string;
   delay?: number;
+  target?: string;
 }
 
 interface Warmer {
