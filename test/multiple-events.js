@@ -24,7 +24,7 @@ describe('Target Tests', function() {
   describe('Using default configuration', function() {
     it('should invoke multiple lambdas', function(done) {
       let warmer = rewire('../index')
-      stub.returns({ promise: () => true })
+      stub.returns(() => true)
 
       let event = [
         { warmer: true, concurrency: 1, target: 'otherX' },
@@ -43,7 +43,7 @@ describe('Target Tests', function() {
 
     it('should invoke multiple lambdas with different concurrency', function(done) {
       let warmer = rewire('../index')
-      stub.returns({ promise: () => true })
+      stub.returns(() => true)
 
       let event = [
         { warmer: true, concurrency: 2, target: 'otherX' },
@@ -64,7 +64,7 @@ describe('Target Tests', function() {
 
     it('should return true with three lambda invocations', function(done) {
       let warmer = rewire('../index')
-      stub.returns({ promise: () => true })
+      stub.returns(() => true)
 
       let event = [
         { warmer: true, concurrency: 2, target: 'otherX' },
@@ -94,7 +94,7 @@ describe('Target Tests', function() {
   describe('Using modified configuration', function() {
     it('should return true with a single lambda invocation', function(done) {
       let warmer = rewire('../index')
-      stub.returns({ promise: () => true })
+      stub.returns(() => true)
 
       let event = { warmerX: true, concurrencyX: 1, targetX: 'other' }
       warmer(event, {
@@ -113,7 +113,7 @@ describe('Target Tests', function() {
 
     it('should return true with two lambda invocations', function(done) {
       let warmer = rewire('../index')
-      stub.returns({ promise: () => true })
+      stub.returns(() => true)
 
       let event = { warmerX: true, concurrencyX: 2, targetX: 'other' }
       warmer(event, {
@@ -134,7 +134,7 @@ describe('Target Tests', function() {
 
     it('should return true with three lambda invocations', function(done) {
       let warmer = rewire('../index')
-      stub.returns({ promise: () => true })
+      stub.returns(() => true)
 
       let event = { warmerX: true, concurrencyX: 3, targetX: 'other' }
       warmer(event, {
@@ -159,11 +159,7 @@ describe('Target Tests', function() {
   describe('Lambda Invocation Errors', function() {
     it('should throw an error', function() {
       let warmer = rewire('../index')
-      stub.returns({
-        promise: () => {
-          throw new Error('some error')
-        }
-      })
+      stub.throws(new Error('some error'))
       let event = { warmer: true, concurrency: 2, target: 'other' }
       let error
 
