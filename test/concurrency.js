@@ -27,7 +27,7 @@ describe('Concurrency Tests', function() {
 
     it('should return true with a single lambda invocation', function(done) {
       let warmer = rewire('../index')
-      stub.returns(() => true)
+      stub.returns(true)
 
       let event = { warmer: true, concurrency: 2 }
       warmer(event, { log:false }).then(out => {
@@ -40,7 +40,7 @@ describe('Concurrency Tests', function() {
 
     it('should return true with two lambda invocations', function(done) {
       let warmer = rewire('../index')
-      stub.returns(() => true)
+      stub.returns(true)
 
       let event = { warmer: true, concurrency: 3 }
       warmer(event, { log:false }).then(out => {
@@ -54,7 +54,7 @@ describe('Concurrency Tests', function() {
 
     it('should return true with three lambda invocations', function(done) {
       let warmer = rewire('../index')
-      stub.returns(() => true)
+      stub.returns(true)
 
       let event = { warmer: true, concurrency: 4 }
       warmer(event, { log:false }).then(out => {
@@ -73,7 +73,7 @@ describe('Concurrency Tests', function() {
 
     it('should return true with a single lambda invocation', function(done) {
       let warmer = rewire('../index')
-      stub.returns(() => true)
+      stub.returns(true)
 
       let event = { warmerX: true, concurrencyX: 2 }
       warmer(event, { flag: 'warmerX', concurrency: 'concurrencyX', log:false }).then(out => {
@@ -86,7 +86,7 @@ describe('Concurrency Tests', function() {
 
     it('should return true with two lambda invocations', function(done) {
       let warmer = rewire('../index')
-      stub.returns(() => true)
+      stub.returns(true)
 
       let event = { warmerX: true, concurrencyX: 3 }
       warmer(event, { flag: 'warmerX', concurrency: 'concurrencyX', log:false }).then(out => {
@@ -100,7 +100,7 @@ describe('Concurrency Tests', function() {
 
     it('should return true with three lambda invocations', function(done) {
       let warmer = rewire('../index')
-      stub.returns(() => true)
+      stub.returns(true)
 
       let event = { warmerX: true, concurrencyX: 4 }
       warmer(event, { flag: 'warmerX', concurrency: 'concurrencyX', log:false }).then(out => {
@@ -120,7 +120,7 @@ describe('Concurrency Tests', function() {
 
     it('should return true with no lambda invocations (concurrency 2)', function(done) {
       let warmer = rewire('../index')
-      stub.returns(() => true)
+      stub.returns(true)
 
       let event = { warmer: true, concurrency: 2, test: true }
       warmer(event, { log:false }).then(out => {
@@ -132,7 +132,7 @@ describe('Concurrency Tests', function() {
 
     it('should return true with no lambda invocations (concurrency 10)', function(done) {
       let warmer = rewire('../index')
-      stub.returns(() => true)
+      stub.returns(true)
 
       let event = { warmer: true, concurrency: 10, test: true }
       warmer(event, { log:false }).then(out => {
@@ -144,7 +144,7 @@ describe('Concurrency Tests', function() {
 
     it('should return true with no lambda invocations (custom "test" flag)', function(done) {
       let warmer = rewire('../index')
-      stub.returns(() => true)
+      stub.returns(true)
 
       let event = { warmer: true, concurrency: 10, _test: true }
       warmer(event, { log:false, test: '_test' }).then(out => {
