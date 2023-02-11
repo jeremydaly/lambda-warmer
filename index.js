@@ -87,7 +87,7 @@ const handleEvent = (event, config) => {
           FunctionName: target,
           InvocationType: i === concurrency ? 'RequestResponse' : 'Event',
           LogType: 'None',
-          Payload: new Buffer(
+          Payload: Buffer.from(
             JSON.stringify({
               [config.flag]: true, // send warmer flag
               __WARMER_INVOCATION__: i, // send invocation number
