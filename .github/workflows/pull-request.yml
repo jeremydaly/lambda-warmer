@@ -20,7 +20,7 @@ jobs:
         with:
           node-version: ${{ matrix.node }}
       - name: Install dependencies
-        run: npm ci
+        run: npm install
       - name: Run tests
         run: npm run test
 
@@ -37,6 +37,6 @@ jobs:
         with:
           node-version: '16'
       - name: Install dependencies
-        run: npm ci
+        run: npm install
       - name: Run ESLint
         run: npm run lint:check
