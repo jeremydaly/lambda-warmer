@@ -98,7 +98,7 @@ const handleEvent = (event, config) => {
         }
 
         // Add promise to invocations array
-        invocations.push(lambda.invoke(params).promise())
+        invocations.push(lambda.invoke(params))
       } // end for
 
       // Invoke concurrent functions

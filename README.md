@@ -31,6 +31,10 @@ Following these "best practices", I created **Lambda Warmer**. It is a lightweig
 
 If you'd like to know more about how **Lambda Warmer** works, and why you might (or might not) want to use it, read this *[Lambda Warmer: Optimize AWS Lambda Function Cold Starts](https://www.jeremydaly.com/lambda-warmer-optimize-aws-lambda-function-cold-starts/)* post.
 
+## Using AWS SDK v2?
+lambda-warmer@v2 is using AWS SDK v3.
+If you are using AWS SDK v2, please use lambda-warmer@v1.
+
 ## Installation
 
 Install Lambda Warmer from NPM as a project dependency.
@@ -151,7 +155,7 @@ Resources:
     Type: 'AWS::Serverless::Function'
     Properties:
       Handler: index.handler
-      Runtime: nodejs8.10
+      Runtime: nodejs16.x
       CodeUri: 's3://my-bucket/function.zip'
       Events:
         WarmingSchedule:
