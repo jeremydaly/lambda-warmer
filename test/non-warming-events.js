@@ -22,6 +22,23 @@ describe('Non-warming Event Tests', function() {
         done()
       })
     })
+
+    it('should return false for list of non warmer events', function(done) {
+      this.slow(500)
+      let warmer = rewire('../index')
+      let event = [{ foo:'bar' }, { foo: 'baz'}]
+
+      let logger = console.log
+      let logData = {}
+      console.log = (log) => { logData = log }
+
+      warmer(event, { log:false }).then(out => {
+        console.log = logger // restore console.log
+        expect(logData).to.deep.equal({})
+        expect(out).to.equal(false)
+        done()
+      })
+    })
   })
 
 })

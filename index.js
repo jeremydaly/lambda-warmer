@@ -136,7 +136,7 @@ module.exports = (event, cfg = {}) => {
       if (i < event.length) {
         return handleEvent(event[i++], config).then(handleNext)
       }
-      return Promise.resolve(true)
+      return Promise.resolve(event.some((e) => e[config.flag]))
     }
     return handleNext()
   } else {
