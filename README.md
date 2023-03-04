@@ -151,7 +151,7 @@ Resources:
     Type: 'AWS::Serverless::Function'
     Properties:
       Handler: index.handler
-      Runtime: nodejs8.10
+      Runtime: nodejs16.x
       CodeUri: 's3://my-bucket/function.zip'
       Events:
         WarmingSchedule:
