@@ -20,8 +20,8 @@ const funcVersion = process.env.AWS_LAMBDA_FUNCTION_VERSION
 const delay = ms => new Promise(res => setTimeout(res, ms))
 
 const handleEvent = (event, config) => {
-  // If the event is a warmer ping
-  if (event && event[config.flag]) {
+  const isWarmerPing = event && event[config.flag]
+  if (isWarmerPing) {
     let concurrency =
       event[config.concurrency] &&
       !isNaN(event[config.concurrency]) &&
@@ -29,7 +29,6 @@ const handleEvent = (event, config) => {
         ? event[config.concurrency]
         : 1
 
-    // Default target to funcName:funcVersion
     let target = event[config.target] || `${funcName}:${funcVersion}`
 
     let invokeCount =
