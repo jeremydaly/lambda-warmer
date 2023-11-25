@@ -20,8 +20,8 @@ const funcVersion = process.env.AWS_LAMBDA_FUNCTION_VERSION
 const delay = ms => new Promise(res => setTimeout(res, ms))
 
 const handleEvent = (event, config) => {
-  // If the event is a warmer ping
-  if (event && event[config.flag]) {
+  const isWarmerPing = event && event[config.flag]
+  if (isWarmerPing) {
     let concurrency =
       event[config.concurrency] &&
       !isNaN(event[config.concurrency]) &&
@@ -29,8 +29,7 @@ const handleEvent = (event, config) => {
         ? event[config.concurrency]
         : 1
 
-    // Default target to funcName
-    let target = event[config.target] || funcName
+    let target = event[config.target] || `${funcName}:${funcVersion}`
 
     let invokeCount =
       event['__WARMER_INVOCATION__'] && !isNaN(event['__WARMER_INVOCATION__'])
@@ -49,7 +48,7 @@ const handleEvent = (event, config) => {
     // Create log record
     let log = {
       action: 'warmer',
-      function: funcName + ':' + funcVersion,
+      function: `${funcName}:${funcVersion}`,
       id,
       correlationId,
       count: invokeCount,
@@ -69,8 +68,9 @@ const handleEvent = (event, config) => {
     warm = true
     lastAccess = Date.now()
 
-    // Check wether this lambda is invoking a different lambda
-    let isDifferentTarget = target !== funcName
+    // Check whether this lambda is invoking a different lambda
+    let isDifferentTarget = !(target === `${funcName}:${funcVersion}` ||
+      (target === funcName && funcVersion === '$LATEST'))
 
     // Fan out if concurrency is set higher than 1
     if ((concurrency > 1 || isDifferentTarget) && !event[config.test]) {
