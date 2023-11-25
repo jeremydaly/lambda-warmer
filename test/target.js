@@ -6,12 +6,11 @@ const rewire = require('rewire') // Rewire library
 
 const lambda = require('../lib/lambda-service') // Init Lambda Service
 
-let stub // init stub
+let stub
 
 describe('Target Tests', function () {
 
   beforeEach(function () {
-    // Stub invoke
     stub = sinon.stub(lambda, 'invoke')
 
     process.env.AWS_LAMBDA_FUNCTION_NAME = 'test-function'
