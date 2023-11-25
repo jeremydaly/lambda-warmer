@@ -8,6 +8,7 @@ const lambda = require('../lib/lambda-service') // Init Lambda Service
 
 // Seed expected environment variable
 process.env.AWS_LAMBDA_FUNCTION_NAME = 'test-function'
+process.env.AWS_LAMBDA_FUNCTION_VERSION = '$LATEST'
 
 let stub // init stub
 
@@ -24,12 +25,38 @@ describe('Target Tests', function() {
 
   describe('Using default configuration', function() {
 
-    it('should invoke the lambda', function(done) {
+    it('should do nothing if there is no target in the event and the concurrency is 1', function(done) {
+      let warmer = rewire('../index')
+      stub.returns(true)
+
+      let event = { warmer: true, concurrency: 1 }
+      warmer(event, { log:true }).then(out => {
+        expect(stub.callCount).to.equal(0)
+        expect(out).to.equal(true)
+        done()
+      })
+    })
+
+    it('should invoke the same lambda if there is no target in the event and the concurrency is more than 1', function(done) {
+      let warmer = rewire('../index')
+      stub.returns(true)
+
+      let event = { warmer: true, concurrency: 2 }
+      warmer(event, { log:true }).then(out => {
+        expect(stub.callCount).to.equal(1)
+        expect(stub.args[0][0].InvocationType).to.equal('RequestResponse')
+        expect(stub.args[0][0].FunctionName).to.equal('test-function:$LATEST')
+        expect(out).to.equal(true)
+        done()
+      })
+    })
+
+    it('should invoke the target lambda', function(done) {
       let warmer = rewire('../index')
       stub.returns(true)
 
       let event = { warmer: true, concurrency: 1, target: 'other' }
-      warmer(event, { log:false }).then(out => {
+      warmer(event, { log:true }).then(out => {
         expect(stub.callCount).to.equal(1)
         expect(stub.args[0][0].InvocationType).to.equal('RequestResponse')
         expect(stub.args[0][0].FunctionName).to.equal('other')
