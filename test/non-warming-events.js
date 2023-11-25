@@ -1,44 +1,46 @@
-'use strict';
+"use strict";
 
-const expect = require('chai').expect // assertion library
-const rewire = require('rewire') // Rewire library
+const expect = require("chai").expect; // assertion library
+const rewire = require("rewire"); // Rewire library
 
-describe('Non-warming Event Tests', function() {
+describe("Non-warming Event Tests", function () {
+  describe("Using default configuration", function () {
+    it("should return false", function (done) {
+      this.slow(500);
+      let warmer = rewire("../index");
+      let event = { foo: "bar" };
 
-  describe('Using default configuration', function() {
-    it('should return false', function(done) {
-      this.slow(500)
-      let warmer = rewire('../index')
-      let event = { foo:'bar' }
+      let logger = console.log;
+      let logData = {};
+      console.log = (log) => {
+        logData = log;
+      };
 
-      let logger = console.log
-      let logData = {}
-      console.log = (log) => { logData = log }
+      warmer(event, { log: false }).then((out) => {
+        console.log = logger; // restore console.log
+        expect(logData).to.deep.equal({});
+        expect(out).to.equal(false);
+        done();
+      });
+    });
 
-      warmer(event, { log:false }).then(out => {
-        console.log = logger // restore console.log
-        expect(logData).to.deep.equal({})
-        expect(out).to.equal(false)
-        done()
-      })
-    })
+    it("should return false for list of non warmer events", function (done) {
+      this.slow(500);
+      let warmer = rewire("../index");
+      let event = [{ foo: "bar" }, { foo: "baz" }];
 
-    it('should return false for list of non warmer events', function(done) {
-      this.slow(500)
-      let warmer = rewire('../index')
-      let event = [{ foo:'bar' }, { foo: 'baz'}]
+      let logger = console.log;
+      let logData = {};
+      console.log = (log) => {
+        logData = log;
+      };
 
-      let logger = console.log
-      let logData = {}
-      console.log = (log) => { logData = log }
-
-      warmer(event, { log:false }).then(out => {
-        console.log = logger // restore console.log
-        expect(logData).to.deep.equal({})
-        expect(out).to.equal(false)
-        done()
-      })
-    })
-  })
-
-})
+      warmer(event, { log: false }).then((out) => {
+        console.log = logger; // restore console.log
+        expect(logData).to.deep.equal({});
+        expect(out).to.equal(false);
+        done();
+      });
+    });
+  });
+});
