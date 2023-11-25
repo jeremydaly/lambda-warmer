@@ -8,6 +8,7 @@ const lambda = require('../lib/lambda-service') // Init Lambda Service
 
 // Seed expected environment variable
 process.env.AWS_LAMBDA_FUNCTION_NAME = 'test-function'
+process.env.AWS_LAMBDA_FUNCTION_VERSION = '$LATEST'
 
 let stub // init stub
 
@@ -22,6 +23,20 @@ describe('Target Tests', function() {
   })
 
   describe('Using default configuration', function() {
+    it('should do nothing if received an array of events that only contains the same lambda with concurrency of 1', function(done) {
+      let warmer = rewire('../index')
+      stub.returns(true)
+
+      let event = [
+        { warmer: true, concurrency: 1, target: 'test-function' }
+      ]
+      warmer(event, { log: false }).then(out => {
+        expect(stub.callCount).to.equal(0)
+        expect(out).to.equal(true)
+        done()
+      })
+    })
+
     it('should invoke multiple lambdas', function(done) {
       let warmer = rewire('../index')
       stub.returns(true)

@@ -6,10 +6,6 @@ const rewire = require('rewire') // Rewire library
 
 const lambda = require('../lib/lambda-service') // Init Lambda Service
 
-// Seed expected environment variable
-process.env.AWS_LAMBDA_FUNCTION_NAME = 'test-function'
-process.env.AWS_LAMBDA_FUNCTION_VERSION = '$LATEST'
-
 let stub // init stub
 
 describe('Target Tests', function () {
@@ -17,6 +13,9 @@ describe('Target Tests', function () {
   beforeEach(function () {
     // Stub invoke
     stub = sinon.stub(lambda, 'invoke')
+
+    process.env.AWS_LAMBDA_FUNCTION_NAME = 'test-function'
+    process.env.AWS_LAMBDA_FUNCTION_VERSION = '$LATEST'
   })
 
   afterEach(function () {
@@ -25,7 +24,21 @@ describe('Target Tests', function () {
 
   describe('Using default configuration', function () {
 
-    it('should do nothing if there is no target in the event and the concurrency is 1', function (done) {
+    it('should do nothing if there is no target in the event and the concurrency is 1 and function version is $LATEST', function (done) {
+      let warmer = rewire('../index')
+      stub.returns(true)
+
+      let event = { warmer: true, concurrency: 1 }
+      warmer(event, { log: false }).then(out => {
+        expect(stub.callCount).to.equal(0)
+        expect(out).to.equal(true)
+        done()
+      })
+    })
+
+    it('should do nothing if there is no target in the event and the concurrency is 1 and function version is not $LATEST', function (done) {
+      process.env.AWS_LAMBDA_FUNCTION_VERSION = '1'
+
       let warmer = rewire('../index')
       stub.returns(true)
 
