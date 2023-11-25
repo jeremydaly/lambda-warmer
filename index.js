@@ -69,7 +69,7 @@ const handleEvent = (event, config) => {
     lastAccess = Date.now()
 
     // Check whether this lambda is invoking a different lambda
-    let isDifferentTarget = target !== `${funcName}:${funcVersion}`
+    let isDifferentTarget = target !== `${funcName}:${funcVersion}` && (target === funcName && funcVersion !== '$LATEST')
 
     // Fan out if concurrency is set higher than 1
     if ((concurrency > 1 || isDifferentTarget) && !event[config.test]) {
