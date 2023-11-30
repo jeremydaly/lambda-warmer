@@ -1,11 +1,16 @@
 'use strict';
 
 const expect = require('chai').expect // assertion library
+const sinon = require('sinon') // Require Sinon.js library
 const rewire = require('rewire') // Rewire library
+
+const lambda = require('../lib/lambda-service') // Init Lambda Service
 
 // Seed expected environment variable
 process.env.AWS_LAMBDA_FUNCTION_NAME = 'test-function'
 process.env.AWS_LAMBDA_FUNCTION_VERSION = '$LATEST'
+
+let stub;
 
 describe('Logging Tests', function() {
 
@@ -29,6 +34,7 @@ describe('Logging Tests', function() {
         expect(logData.lastAccessed).to.be.null
         expect(logData.lastAccessedSeconds).to.be.null
         expect(out).to.equal(true)
+
         done()
       })
     })
@@ -97,6 +103,35 @@ describe('Logging Tests', function() {
         })
       })
     })
+
+  })
+
+  describe('Using non-default target', () => {
+    beforeEach(function () {
+      stub = sinon.stub(lambda, 'invoke')
+    })
+  
+    afterEach(function () {
+      stub.restore()
+    })
+
+    it('should capture target correctly when non-default', function(done) {
+      let warmer = rewire('../index')
+      let event = { warmer: true, concurrency: 1, target: 'a-non-default-function:$LATEST' }
+
+      let logger = console.log
+      let logData = {}
+      console.log = (log) => { logData = log }
+
+      warmer(event, { log:true }).then(out => {
+        console.log = logger // restore console.log
+        // console.log(logData)
+        expect(logData.function).to.equal('a-non-default-function:$LATEST')
+        expect(out).to.equal(true)
+
+        done()
+      })
+    });
 
   })
 
