@@ -48,7 +48,7 @@ const handleEvent = (event, config) => {
     // Create log record
     let log = {
       action: 'warmer',
-      function: `${funcName}:${funcVersion}`,
+      function: target,
       id,
       correlationId,
       count: invokeCount,
