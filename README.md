@@ -22,6 +22,8 @@ Following these "best practices", I created **Lambda Warmer**. It is a lightweig
 
 **NOTE:** Lambda Warmer will invoke the function multiple times using the AWS-SDK in order to scale concurrency (if you want to). Your functions MUST have `lambda:InvokeFunction` permissions so that they can invoke themselves. Following the Principle of Least Privilege, you should limit the `Resource` to the function itself, e.g.:
 
+**IMPORTANT:** If you're running Lambda Warmer in a VPC and using the fan-out process (with `concurrency > 1`), you must ensure that your VPC has a properly configured NAT Gateway. Fan-out requires internet access, which is provided by the NAT Gateway. Without it, the function invocations will fail. Most users with an already configured NAT Gateway won't encounter this issue unless the NAT Gateway is removed or misconfigured. If you notice failures in concurrent warm-up, check if your NAT Gateway is properly set up.
+
 ```yaml
 - Effect: "Allow"
   Action:
