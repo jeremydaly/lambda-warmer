@@ -19,7 +19,7 @@ const funcVersion = process.env.AWS_LAMBDA_FUNCTION_VERSION
 
 const delay = ms => new Promise(res => setTimeout(res, ms))
 
-const handleEvent = (event, config) => {
+const handleEvent = (event, context, config) => {
   const isWarmerPing = event && event[config.flag]
   if (isWarmerPing) {
     let concurrency =
@@ -68,8 +68,11 @@ const handleEvent = (event, config) => {
     warm = true
     lastAccess = Date.now()
 
+    const currentFunctionAlias = context && context.invokedFunctionArn ? context.invokedFunctionArn.split(':').pop() : funcVersion
+
     // Check whether this lambda is invoking a different lambda
     let isDifferentTarget = !(target === `${funcName}:${funcVersion}` ||
+      target === `${funcName}:${currentFunctionAlias}` ||
       (target === funcName && funcVersion === '$LATEST'))
 
     // Fan out if concurrency is set higher than 1
@@ -115,7 +118,7 @@ const handleEvent = (event, config) => {
   }
 }
 
-module.exports = (event, cfg = {}) => {
+module.exports = (event, cfg = {}, context) => {
   let config = Object.assign(
     {},
     {
@@ -134,12 +137,12 @@ module.exports = (event, cfg = {}) => {
     let i = 0
     const handleNext = () => {
       if (i < event.length) {
-        return handleEvent(event[i++], config).then(handleNext)
+        return handleEvent(event[i++], context, config).then(handleNext)
       }
       return Promise.resolve(event.some((e) => e[config.flag]))
     }
     return handleNext()
   } else {
-    return handleEvent(event, config)
+    return handleEvent(event, context, config)
   }
 } // end module
