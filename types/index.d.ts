@@ -17,10 +17,11 @@ interface Warmer {
    * @param event the event passed to the lambda
    * @param [config] the config options to change lambda warmer's default behavior.  All of
    * the settings are optional
+   * @param [context] the context passed to the lambda
    *
    * @returns a Promise that resolves to true if this is a warming invocation
    */
-  (event: any, config?: WarmerConfig): Promise<boolean>;
+  (event: any, config?: WarmerConfig, context?: any): Promise<boolean>;
   WarmerConfig: WarmerConfig;
 }
 
