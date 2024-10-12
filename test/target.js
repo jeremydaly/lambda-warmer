@@ -49,6 +49,18 @@ describe('Target Tests', function () {
       })
     })
 
+    it('should do nothing if there is a target in the event with the same function name and alias', function (done) {
+      let warmer = rewire('../index')
+      stub.returns(true)
+
+      let event = { warmer: true, concurrency: 1, target: 'test-function:stable' }
+      warmer(event, { log: false }, {invokedFunctionArn: 'arn:aws:lambda:us-west-2:123456789:function:test-function:stable'}).then(out => {
+        expect(stub.callCount).to.equal(0)
+        expect(out).to.equal(true)
+        done()
+      })
+    })
+
     it(
       'should invoke the same lambda if there is no target in the event and the concurrency is more than 1',
       function (done) {
@@ -95,7 +107,7 @@ describe('Target Tests', function () {
         })
       })
 
-      it('if the current function is not $LATEST and the target is with no alias (i.e. $LATEST)', function (done) {
+      it('if the current function is not $LATEST and the target is with no version (i.e. $LATEST)', function (done) {
         process.env.AWS_LAMBDA_FUNCTION_VERSION = '1'
         let warmer = rewire('../index')
         stub.returns(true)
@@ -105,6 +117,21 @@ describe('Target Tests', function () {
           expect(stub.callCount).to.equal(1)
           expect(stub.args[0][0].InvocationType).to.equal('RequestResponse')
           expect(stub.args[0][0].FunctionName).to.equal('test-function')
+          expect(out).to.equal(true)
+          done()
+        })
+      })
+
+      it('if the current function has an alias that is not the same as the target version', function (done) {
+        process.env.AWS_LAMBDA_FUNCTION_VERSION = '1'
+        let warmer = rewire('../index')
+        stub.returns(true)
+
+        let event = { warmer: true, concurrency: 1, target: 'test-function:2' }
+        warmer(event, { log: false }, {invokedFunctionArn: 'arn:aws:lambda:us-west-2:123456789:function:test-function:1'}).then(out => {
+          expect(stub.callCount).to.equal(1)
+          expect(stub.args[0][0].InvocationType).to.equal('RequestResponse')
+          expect(stub.args[0][0].FunctionName).to.equal('test-function:2')
           expect(out).to.equal(true)
           done()
         })

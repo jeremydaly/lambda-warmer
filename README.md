@@ -54,9 +54,9 @@ If you're using `async/await`, you can `await` the result of Lambda Warmer and `
 ```javascript
 const warmer = require('lambda-warmer')
 
-exports.handler = async (event) => {
+exports.handler = async (event, context) => {
   // if a warming event
-  if (await warmer(event)) return 'warmed'
+  if (await warmer(event, {/* lambda warmer config here */}, context)) return 'warmed'
   // else proceed with handler logic
   return 'Hello from Lambda'
 }
@@ -69,7 +69,7 @@ const warmer = require('lambda-warmer')
 
 exports.handler = (event, context, callback) => {
   // Start a promise chain
-  warmer(event).then(isWarmer => {
+  warmer(event, {/* lambda warmer config here */}, context).then(isWarmer => {
     // if a warming event
     if (isWarmer) {
       callback(null,'warmed')
@@ -80,6 +80,19 @@ exports.handler = (event, context, callback) => {
   })
 }
 ```
+
+### Passing the `context` Parameter
+
+When your Lambda function is invoked using an **alias** (e.g., `stable`, `prod`, etc.), you need to pass the `context` object to `lambda-warmer` so it can accurately determine if the function is invoking itself.
+
+```javascript
+exports.handler = async (event, context) => {
+  if (await warmer(event, {}, context)) return 'warmed'
+  // Your handler logic
+}
+```
+
+By passing context, `lambda-warmer` can extract the alias from `context`.invokedFunctionArn and properly handle warming invocations.
 
 ## Configuration Options
 
@@ -122,7 +135,7 @@ Example passing a configuration:
 ```javascript
 exports.handler = async (event, context) => {
   // if a warming event
-  if (await warmer(event, { correlationId: context.awsRequestId, delay: 50 })) return 'warmed'
+  if (await warmer(event, { correlationId: context.awsRequestId, delay: 50 }, context)) return 'warmed'
   // else proceed with handler logic
   return 'Hello from Lambda'
 }
@@ -207,6 +220,21 @@ myFunction:
           - warmer: true
             concurrency: 2
             target: myOtherFunction3
+```
+
+## Support for Lambda Function Aliases
+
+Starting from version `2.1.0`, `lambda-warmer` supports warming Lambda functions invoked via aliases.
+
+### How to Use Alias Support
+
+When invoking your Lambda function using an alias, pass the `context` object to `lambda-warmer`:
+
+```javascript
+exports.handler = async (event, context) => {
+  if (await warmer(event, {/* lambda warmer config here */}, context)) return 'warmed'
+  // Your handler logic
+}
 ```
 
 ## Logs
