@@ -25,6 +25,9 @@
     "cloudwatch ping"
   ],
   "author": "Jeremy Daly <jeremy@jeremydaly.com>",
+  "maintainers": [{
+    "name": "Naor Peled <me@naor.dev>"
+  }],
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/jeremydaly/lambda-warmer/issues"
