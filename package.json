@@ -1,6 +1,6 @@
 {
   "name": "lambda-warmer",
-  "version": "2.0.1",
+  "version": "2.1.0",
   "description": "Keep your Lambda functions warm",
   "main": "index.js",
   "types": "./types/index.d.ts",
@@ -25,9 +25,11 @@
     "cloudwatch ping"
   ],
   "author": "Jeremy Daly <jeremy@jeremydaly.com>",
-  "maintainers": [{
-    "name": "Naor Peled <me@naor.dev>"
-  }],
+  "maintainers": [
+    {
+      "name": "Naor Peled <me@naor.dev>"
+    }
+  ],
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/jeremydaly/lambda-warmer/issues"
