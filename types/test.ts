@@ -2,6 +2,7 @@ import warmer from 'lambda-warmer';
 
 warmer({});
 warmer({}, {});
+warmer({}, {}, {});
 warmer({}, {
   flag: 'some-flag',
   concurrency: 10,
@@ -10,6 +11,8 @@ warmer({}, {
   correlationId: 'some-id',
   delay: 1000,
   target: 'some-target',
+}, {
+  invokedFunctionArn: 'some-arn'
 });
 
 // @ts-expect-error - params should be required
