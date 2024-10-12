@@ -66,7 +66,6 @@ const handleEvent = (event, context, config) => {
 
     // flag as warm
     warm = true
-    lastAccess = Date.now()
 
     const currentFunctionAlias = context && context.invokedFunctionArn ? context.invokedFunctionArn.split(':').pop() : funcVersion
 
