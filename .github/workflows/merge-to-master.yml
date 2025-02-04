@@ -1,4 +1,4 @@
-name: 'Merge to master'
+name: "Merge to master"
 
 on:
   push:
@@ -10,7 +10,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [14.x]
+        node-version: [20.x]
 
     steps:
       - name: Get branch name (merge)
