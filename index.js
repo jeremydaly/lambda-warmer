@@ -13,7 +13,7 @@ const id =
 
 let warm = false
 let lastAccess = null
-let lambda = null;
+let lambda = null
 const funcName = process.env.AWS_LAMBDA_FUNCTION_NAME
 const funcVersion = process.env.AWS_LAMBDA_FUNCTION_VERSION
 
@@ -78,7 +78,7 @@ const handleEvent = (event, context, config) => {
     if ((concurrency > 1 || isDifferentTarget) && !event[config.test]) {
       // init Lambda service
       if(!lambda){
-        lambda = require('./lib/lambda-service');
+        lambda = require('./lib/lambda-service')
       }
 
       // init promise array
