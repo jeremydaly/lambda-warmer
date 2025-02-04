@@ -24,8 +24,8 @@ const handleEvent = (event, context, config) => {
   if (isWarmerPing) {
     let concurrency =
       event[config.concurrency] &&
-      !isNaN(event[config.concurrency]) &&
-      event[config.concurrency] > 1
+        !isNaN(event[config.concurrency]) &&
+        event[config.concurrency] > 1
         ? event[config.concurrency]
         : 1
 
@@ -77,7 +77,7 @@ const handleEvent = (event, context, config) => {
     // Fan out if concurrency is set higher than 1
     if ((concurrency > 1 || isDifferentTarget) && !event[config.test]) {
       // init Lambda service
-      if(!lambda){
+      if (!lambda) {
         lambda = require('./lib/lambda-service')
       }
 
