@@ -62,7 +62,7 @@ const handleEvent = (event, context, config) => {
     }
 
     // Log it
-    config.log && console.log(log) // eslint-disable-line no-console
+    config.log && console.log(log)
 
     // flag as warm
     warm = true
